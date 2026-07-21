@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { databases, DATABASE_ID, BINDERS_COLLECTION_ID, CARDS_COLLECTION_ID } from '../appwrite'
 import { Query } from 'appwrite'
+import { getTheme } from '../themes'
 
 interface Card {
   $id: string
@@ -12,6 +13,7 @@ interface Card {
 interface BinderData {
   $id: string
   name: string
+  theme: string | null
 }
 
 export default function SharedBinder() {
@@ -58,14 +60,18 @@ export default function SharedBinder() {
   )
   if (!binder) return null
 
+  const theme = getTheme(binder.theme)
+
   return (
-    <div className="shared-page">
+    <div className={`shared-page theme-${binder.theme || 'classic'}`}>
       <div className="shared-header">
         <Link to="/login" className="brand-link">
           <span className="brand-icon">📁</span> MyStuffsBetter
         </Link>
         <h1>{binder.name}</h1>
-        <p className="shared-subtitle">Someone shared their binder with you! Check it out below.</p>
+        <p className="shared-subtitle">
+          {theme.emoji} {theme.label} — Someone shared their binder with you!
+        </p>
       </div>
 
       {cards.length === 0 ? (

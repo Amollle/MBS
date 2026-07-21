@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import { databases, DATABASE_ID, BINDERS_COLLECTION_ID } from '../appwrite'
 import { Query, Permission, Role } from 'appwrite'
 import { useAuth } from '../AuthContext'
+import { THEMES, getTheme } from '../themes'
 
 interface Binder {
   $id: string
   name: string
+  theme: string | null
   shareId: string | null
   $createdAt: string
 }
@@ -17,6 +19,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
   const [newName, setNewName] = useState('')
+  const [newTheme, setNewTheme] = useState('classic')
   const [creating, setCreating] = useState(false)
 
   const fetchBinders = async () => {
@@ -46,7 +49,7 @@ export default function Dashboard() {
         DATABASE_ID,
         BINDERS_COLLECTION_ID,
         'unique()',
-        { name: newName.trim(), userId: user.$id },
+        { name: newName.trim(), userId: user.$id, theme: newTheme },
         [
           Permission.read(Role.any()),
           Permission.update(Role.user(user.$id)),
@@ -54,6 +57,7 @@ export default function Dashboard() {
         ]
       )
       setNewName('')
+      setNewTheme('classic')
       setShowCreate(false)
       fetchBinders()
     } catch (err) {
@@ -85,8 +89,9 @@ export default function Dashboard() {
       {showCreate && (
         <div className="create-binder-overlay" onClick={() => setShowCreate(false)}>
           <div className="create-binder-modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Name your binder</h2>
+            <h2>Create a new binder</h2>
             <form onSubmit={createBinder}>
+              <label>Binder name</label>
               <input
                 type="text"
                 value={newName}
@@ -95,6 +100,20 @@ export default function Dashboard() {
                 autoFocus
                 required
               />
+              <label>Pick a theme</label>
+              <div className="theme-picker">
+                {THEMES.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className={`theme-option ${newTheme === t.id ? 'selected' : ''}`}
+                    onClick={() => setNewTheme(t.id)}
+                  >
+                    <span className="theme-emoji">{t.emoji}</span>
+                    <span className="theme-label">{t.label}</span>
+                  </button>
+                ))}
+              </div>
               <div className="modal-actions">
                 <button type="button" className="btn btn-ghost" onClick={() => setShowCreate(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary" disabled={creating}>
@@ -119,24 +138,25 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="binder-grid">
-          {binders.map((binder) => (
-            <div key={binder.$id} className="binder-card">
-              <Link to={`/binder/${binder.$id}`} className="binder-card-link">
-                <div className="binder-card-icon">📁</div>
-                <h3>{binder.name}</h3>
-                <p className="binder-date">
-                  Created {new Date(binder.$createdAt).toLocaleDateString()}
-                </p>
-              </Link>
-              <button
-                className="btn btn-danger-sm"
-                onClick={(e) => { e.preventDefault(); deleteBinder(binder.$id) }}
-                title="Delete binder"
-              >
-                🗑️
-              </button>
-            </div>
-          ))}
+          {binders.map((binder) => {
+            const theme = getTheme(binder.theme)
+            return (
+              <div key={binder.$id} className={`binder-card theme-preview-${binder.theme || 'classic'}`}>
+                <Link to={`/binder/${binder.$id}`} className="binder-card-link">
+                  <div className="binder-card-icon">{theme.emoji}</div>
+                  <h3>{binder.name}</h3>
+                  <p className="binder-date">{theme.label}</p>
+                </Link>
+                <button
+                  className="btn btn-danger-sm"
+                  onClick={(e) => { e.preventDefault(); deleteBinder(binder.$id) }}
+                  title="Delete binder"
+                >
+                  🗑️
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

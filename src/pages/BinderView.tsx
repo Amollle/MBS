@@ -4,6 +4,7 @@ import { databases, storage, APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, DATABASE_ID
 import { ID, Query, Permission, Role } from 'appwrite'
 import { nanoid } from 'nanoid'
 import { useAuth } from '../AuthContext'
+import { THEMES, getTheme } from '../themes'
 
 interface Card {
   $id: string
@@ -14,6 +15,7 @@ interface Card {
 interface BinderData {
   $id: string
   name: string
+  theme: string | null
   shareId: string | null
 }
 
@@ -24,6 +26,7 @@ export default function BinderView() {
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddCard, setShowAddCard] = useState(false)
+  const [showThemePicker, setShowThemePicker] = useState(false)
   const [cardName, setCardName] = useState('')
   const [cardFile, setCardFile] = useState<File | null>(null)
   const [addingCard, setAddingCard] = useState(false)
@@ -121,15 +124,31 @@ export default function BinderView() {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const changeTheme = async (themeId: string) => {
+    if (!id) return
+    try {
+      await databases.updateDocument(DATABASE_ID, BINDERS_COLLECTION_ID, id, { theme: themeId })
+      setBinder((prev) => prev ? { ...prev, theme: themeId } : prev)
+      setShowThemePicker(false)
+    } catch (err) {
+      console.error('Failed to change theme', err)
+    }
+  }
+
   if (loading) return <div className="loading-screen">Loading binder...</div>
   if (!binder) return <div className="loading-screen">Binder not found. <Link to="/">Go back</Link></div>
 
+  const theme = getTheme(binder.theme)
+
   return (
-    <div className="binder-view">
+    <div className={`binder-view theme-${binder.theme || 'classic'}`}>
       <div className="binder-header">
         <Link to="/" className="back-link">← Back to binders</Link>
         <h1>{binder.name}</h1>
         <div className="binder-actions">
+          <button className="btn btn-secondary" onClick={() => setShowThemePicker(true)}>
+            {theme.emoji} Theme
+          </button>
           <button className="btn btn-secondary" onClick={generateShareLink}>
             🔗 Share
           </button>
@@ -145,6 +164,30 @@ export default function BinderView() {
           <button className="btn btn-primary" onClick={copyLink}>
             {copied ? '✓ Copied!' : 'Copy'}
           </button>
+        </div>
+      )}
+
+      {showThemePicker && (
+        <div className="create-binder-overlay" onClick={() => setShowThemePicker(false)}>
+          <div className="create-binder-modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Pick a theme</h2>
+            <div className="theme-picker">
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`theme-option ${binder.theme === t.id ? 'selected' : ''}`}
+                  onClick={() => changeTheme(t.id)}
+                >
+                  <span className="theme-emoji">{t.emoji}</span>
+                  <span className="theme-label">{t.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className="modal-actions">
+              <button type="button" className="btn btn-ghost" onClick={() => setShowThemePicker(false)}>Close</button>
+            </div>
+          </div>
         </div>
       )}
 
