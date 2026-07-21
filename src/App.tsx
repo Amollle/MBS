@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './AuthContext'
 import Navbar from './components/Navbar'
+import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
@@ -23,9 +24,9 @@ export default function App() {
       <Navbar />
       <main className="main-content">
         <Routes>
+          <Route path="/" element={user ? <Dashboard /> : <Home />} />
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
-          <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/binder/:id" element={<PrivateRoute><BinderView /></PrivateRoute>} />
           <Route path="/shared/:shareId" element={<SharedBinder />} />
           <Route path="*" element={<Navigate to="/" />} />
