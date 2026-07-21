@@ -792,7 +792,7 @@ body {
 
 /* Galaxy */
 .theme-galaxy {
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background: #050510;
   color: #e0e0ff;
   min-height: 100vh;
   margin: -24px -20px;
@@ -934,7 +934,7 @@ body {
 .theme-sky .card-info h4 { color: #01579b; }
 
 /* ===== Shared page theme overrides ===== */
-.theme-galaxy.shared-page { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #e0e0ff; }
+.theme-galaxy.shared-page { background: #050510; color: #e0e0ff; }
 .theme-sakura.shared-page { background: linear-gradient(180deg, #fff0f5, #fce4ec, #f8bbd0); }
 .theme-museum.shared-page { background: linear-gradient(180deg, #faf8f0, #f0ead6, #e8dfc0); }
 .theme-neon.shared-page { background: #0a0a0a; color: #e0e0e0; }
@@ -946,22 +946,61 @@ body {
 
 /* ===== IMMERSIVE THEME EFFECTS ===== */
 
-/* --- Galaxy: Floating stars + card glow --- */
+/* --- Galaxy: Dense star field + card glow --- */
 @keyframes galaxy-stars {
-  0%, 100% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
+  0%, 100% { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  50% { background-position: 100% 100%, 50% 80%, 80% 30%; }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 .theme-galaxy {
   background-image:
-    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
-    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1.5px 1.5px at 90px 40px, #c9b8ff, transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1.5px 1.5px at 160px 120px, #a78bfa, transparent),
-    radial-gradient(1px 1px at 200px 50px, #fff, transparent);
-  background-size: 220px 150px;
-  animation: galaxy-stars 20s linear infinite;
+    radial-gradient(2px 2px at 15px 20px, #fff, transparent),
+    radial-gradient(2px 2px at 50px 45px, #e0d0ff, transparent),
+    radial-gradient(2.5px 2.5px at 85px 15px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 120px 60px, #c9b8ff, transparent),
+    radial-gradient(2px 2px at 35px 80px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 160px 35px, #a78bfa, transparent),
+    radial-gradient(2px 2px at 70px 90px, #fff, transparent),
+    radial-gradient(3px 3px at 200px 70px, #ffd700, transparent),
+    radial-gradient(1.5px 1.5px at 100px 110px, #fff, transparent),
+    radial-gradient(2px 2px at 230px 25px, #e0d0ff, transparent),
+    radial-gradient(2.5px 2.5px at 180px 95px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 260px 55px, #c9b8ff, transparent),
+    radial-gradient(2px 2px at 140px 130px, #fff, transparent),
+    radial-gradient(3px 3px at 290px 80px, #00e5ff, transparent),
+    radial-gradient(2px 2px at 45px 140px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 310px 40px, #ffd700, transparent),
+    radial-gradient(2px 2px at 215px 120px, #e0d0ff, transparent),
+    radial-gradient(2.5px 2.5px at 270px 105px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 340px 70px, #a78bfa, transparent),
+    radial-gradient(2px 2px at 370px 30px, #fff, transparent);
+  background-size: 400px 160px, 350px 180px, 300px 200px;
+  background-color: #050510;
+  animation: galaxy-stars 30s linear infinite;
 }
+.theme-galaxy::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 25% 45%, #c9b8ff, transparent),
+    radial-gradient(1px 1px at 40% 70%, #fff, transparent),
+    radial-gradient(2px 2px at 55% 20%, #ffd700, transparent),
+    radial-gradient(1px 1px at 70% 55%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 80%, #00e5ff, transparent),
+    radial-gradient(1px 1px at 95% 35%, #fff, transparent),
+    radial-gradient(2px 2px at 15% 90%, #a78bfa, transparent),
+    radial-gradient(1px 1px at 60% 10%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 33% 60%, #e0d0ff, transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+.theme-galaxy > * { position: relative; z-index: 1; }
 .theme-galaxy .card-item:hover {
   box-shadow: 0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(167, 139, 250, 0.2);
   border-color: #a78bfa;
