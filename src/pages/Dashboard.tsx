@@ -110,7 +110,10 @@ export default function Dashboard() {
                     onClick={() => setNewTheme(t.id)}
                   >
                     <span className="theme-emoji">{t.emoji}</span>
-                    <span className="theme-label">{t.label}</span>
+                    <span className="theme-info">
+                      <span className="theme-label">{t.label}</span>
+                      <span className="theme-vibe">{t.vibe}</span>
+                    </span>
                   </button>
                 ))}
               </div>

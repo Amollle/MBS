@@ -153,7 +153,7 @@ export default function BinderView() {
             🔗 Share
           </button>
           <button className="btn btn-primary" onClick={() => setShowAddCard(true)}>
-            + Add Card
+            + {theme.createLabel}
           </button>
         </div>
       </div>
@@ -170,7 +170,7 @@ export default function BinderView() {
       {showThemePicker && (
         <div className="create-binder-overlay" onClick={() => setShowThemePicker(false)}>
           <div className="create-binder-modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Pick a theme</h2>
+            <h2>Change theme</h2>
             <div className="theme-picker">
               {THEMES.map((t) => (
                 <button
@@ -180,7 +180,10 @@ export default function BinderView() {
                   onClick={() => changeTheme(t.id)}
                 >
                   <span className="theme-emoji">{t.emoji}</span>
-                  <span className="theme-label">{t.label}</span>
+                  <span className="theme-info">
+                    <span className="theme-label">{t.label}</span>
+                    <span className="theme-vibe">{t.vibe}</span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -194,9 +197,9 @@ export default function BinderView() {
       {showAddCard && (
         <div className="create-binder-overlay" onClick={() => setShowAddCard(false)}>
           <div className="create-binder-modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Add a new card</h2>
+            <h2>Add a new {theme.cardLabel.toLowerCase()}</h2>
             <form onSubmit={addCard}>
-              <label>Card name</label>
+              <label>{theme.cardLabel} name</label>
               <input
                 type="text"
                 value={cardName}
@@ -225,11 +228,11 @@ export default function BinderView() {
 
       {cards.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">🃏</div>
-          <h2>No cards yet!</h2>
-          <p>Add your first card to this binder.</p>
+          <div className="empty-icon">{theme.emoji}</div>
+          <h2>No {theme.cardLabel.toLowerCase()}s yet!</h2>
+          <p>{theme.createLabel} your first {theme.cardLabel.toLowerCase()} to this {theme.binderLabel.toLowerCase()}.</p>
           <button className="btn btn-primary" onClick={() => setShowAddCard(true)}>
-            Add Your First Card
+            {theme.createLabel} Your First {theme.cardLabel}
           </button>
         </div>
       ) : (
