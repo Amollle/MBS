@@ -48,6 +48,17 @@ export default function SharedBinder() {
       .finally(() => setLoading(false))
   }, [shareId])
 
+  // Apply theme to .app wrapper for full-bleed backgrounds
+  useEffect(() => {
+    if (binder?.theme) {
+      const appEl = document.querySelector('.app')
+      if (appEl) {
+        appEl.classList.add(`theme-${binder.theme}`)
+        return () => { appEl.classList.remove(`theme-${binder.theme}`) }
+      }
+    }
+  }, [binder?.theme])
+
   if (loading) return <div className="loading-screen">Loading...</div>
   if (error) return (
     <div className="shared-page">
@@ -63,7 +74,7 @@ export default function SharedBinder() {
   const theme = getTheme(binder.theme)
 
   return (
-    <div className={`shared-page theme-${binder.theme || 'classic'}`}>
+    <div className="shared-page">
       <div className="shared-header">
         <Link to="/login" className="brand-link">
           <span className="brand-icon">📁</span> MyStuffsBetter

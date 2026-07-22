@@ -34,6 +34,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .main-content {
@@ -795,8 +796,7 @@ body {
   background: #050510;
   color: #e0e0ff;
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-galaxy .binder-header h1 { color: #c9b8ff; }
 .theme-galaxy .back-link { color: #a78bfa; }
@@ -815,8 +815,7 @@ body {
 .theme-sakura {
   background: linear-gradient(180deg, #fff0f5, #fce4ec, #f8bbd0);
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-sakura .binder-header h1 { color: #c2185b; }
 .theme-sakura .card-item { background: #fff; border: 1px solid #f8bbd0; }
@@ -826,8 +825,7 @@ body {
 .theme-museum {
   background: linear-gradient(180deg, #faf8f0, #f0ead6, #e8dfc0);
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-museum .binder-header h1 { color: #5d4037; font-family: Georgia, serif; }
 .theme-museum .card-item { background: #fffbf0; border: 2px solid #d7ccc8; box-shadow: 2px 2px 0 #bcaaa4; }
@@ -838,8 +836,7 @@ body {
   background: #0a0a0a;
   color: #e0e0e0;
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-neon .binder-header h1 { color: #39ff14; text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14; }
 .theme-neon .back-link { color: #ff073a; text-shadow: 0 0 5px #ff073a; }
@@ -856,8 +853,7 @@ body {
   background: linear-gradient(180deg, #1b5e20, #2e7d32, #388e3c);
   color: #e8f5e9;
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-forest .binder-header h1 { color: #a5d6a7; }
 .theme-forest .back-link { color: #81c784; }
@@ -874,8 +870,7 @@ body {
 .theme-frost {
   background: linear-gradient(180deg, #e3f2fd, #bbdefb, #90caf9);
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-frost .binder-header h1 { color: #1565c0; }
 .theme-frost .card-item { background: #fff; border: 1px solid #90caf9; box-shadow: 0 2px 8px rgba(21,101,192,0.1); }
@@ -886,8 +881,7 @@ body {
   background: linear-gradient(135deg, #1a0e00, #3e2723, #4e342e);
   color: #ffcc80;
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-pirate .binder-header h1 { color: #ffcc80; font-family: Georgia, serif; }
 .theme-pirate .back-link { color: #ffb74d; }
@@ -906,8 +900,7 @@ body {
   color: #4ade80;
   font-family: 'Courier New', monospace;
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-pixel .binder-header h1 { color: #4ade80; letter-spacing: 2px; text-transform: uppercase; }
 .theme-pixel .back-link { color: #facc15; }
@@ -926,23 +919,13 @@ body {
 .theme-sky {
   background: linear-gradient(180deg, #e1f5fe, #b3e5fc, #81d4fa);
   min-height: 100vh;
-  margin: -24px -20px;
-  padding: 24px 20px;
+
 }
 .theme-sky .binder-header h1 { color: #0277bd; }
 .theme-sky .card-item { background: rgba(255,255,255,0.85); border: 1px solid #81d4fa; box-shadow: 0 4px 12px rgba(2,119,189,0.08); }
 .theme-sky .card-info h4 { color: #01579b; }
 
-/* ===== Shared page theme overrides ===== */
-.theme-galaxy.shared-page { background: #050510; color: #e0e0ff; }
-.theme-sakura.shared-page { background: linear-gradient(180deg, #fff0f5, #fce4ec, #f8bbd0); }
-.theme-museum.shared-page { background: linear-gradient(180deg, #faf8f0, #f0ead6, #e8dfc0); }
-.theme-neon.shared-page { background: #0a0a0a; color: #e0e0e0; }
-.theme-forest.shared-page { background: linear-gradient(180deg, #1b5e20, #2e7d32, #388e3c); color: #e8f5e9; }
-.theme-frost.shared-page { background: linear-gradient(180deg, #e3f2fd, #bbdefb, #90caf9); }
-.theme-pirate.shared-page { background: linear-gradient(135deg, #1a0e00, #3e2723, #4e342e); color: #ffcc80; }
-.theme-pixel.shared-page { background: #1a1a2e; color: #4ade80; font-family: 'Courier New', monospace; }
-.theme-sky.shared-page { background: linear-gradient(180deg, #e1f5fe, #b3e5fc, #81d4fa); }
+/* ===== Shared page theme overrides (removed - themes now on .app level) ===== */
 
 /* ===== IMMERSIVE THEME EFFECTS ===== */
 

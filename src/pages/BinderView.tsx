@@ -55,6 +55,17 @@ export default function BinderView() {
 
   useEffect(() => { fetchBinder() }, [id])
 
+  // Apply theme to .app wrapper for full-bleed backgrounds
+  useEffect(() => {
+    if (binder?.theme) {
+      const appEl = document.querySelector('.app')
+      if (appEl) {
+        appEl.classList.add(`theme-${binder.theme}`)
+        return () => { appEl.classList.remove(`theme-${binder.theme}`) }
+      }
+    }
+  }, [binder?.theme])
+
   const addCard = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!cardName.trim() || !id || !user) return
@@ -141,7 +152,7 @@ export default function BinderView() {
   const theme = getTheme(binder.theme)
 
   return (
-    <div className={`binder-view theme-${binder.theme || 'classic'}`}>
+    <div className="binder-view">
       <div className="binder-header">
         <Link to="/" className="back-link">← Back to binders</Link>
         <h1>{binder.name}</h1>
